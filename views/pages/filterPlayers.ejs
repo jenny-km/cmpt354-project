@@ -54,12 +54,8 @@
                 <% if(playerColumnsForTh.includes('name')){ %>
                   <td><%= players[i].name %></td>
                 <% } %>
-                <% if(playerColumnsForTh.includes('dob')){ %>
-                  <% if(players[i].dob){ %>
-                    <td><%=players[i].dob.getFullYear()%>-<%=(players[i].dob.getMonth() < 10 ? '0' : '') + players[i].dob.getMonth()%>-<%=(players[i].dob.getDate() < 10 ? '0' : '') + players[i].dob.getDate()%></td>
-                  <% } else{ %>  
-                    <td><%=players[i].dob%></td>
-                  <% } %>
+                <% if(playerColumnsForTh.includes('email')){ %>
+                  <td><%= players[i].email %></td>
                 <% } %>
                 <% if(playerColumnsForTh.includes('gender')){ %>
                   <td><%= players[i].gender %></td>
@@ -67,8 +63,12 @@
                 <% if(playerColumnsForTh.includes('phone')){ %>
                   <td><%= players[i].phone %></td>
                 <% } %>
-                <% if(playerColumnsForTh.includes('email')){ %>
-                  <td><%= players[i].email %></td>
+                <% if(playerColumnsForTh.includes('dob')){ %>
+                  <% if(players[i].dob){ %>
+                    <td><%=players[i].dob.getFullYear()%>-<%=(players[i].dob.getMonth() < 10 ? '0' : '') + players[i].dob.getMonth()%>-<%=(players[i].dob.getDate() < 10 ? '0' : '') + players[i].dob.getDate()%></td>
+                  <% } else{ %>  
+                    <td><%=players[i].dob%></td>
+                  <% } %>
                 <% } %>
                 <% if(playerColumnsForTh.length > 0){ %>
               <% } %>
