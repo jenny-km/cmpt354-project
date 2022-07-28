@@ -81,7 +81,7 @@ app.get('/filterPlayers', async(req, res) => {
     console.log("colArr:", colArr)
 
 
-    let columnNames = ['playerid', 'name', 'dob', 'gender', 'phone', 'email']
+    let columnNames = ['playerid', 'name', 'email', 'gender', 'phone', 'dob']
     let showColumns = columnNames
     let checkedColumns = Object.keys(req.query)
 
