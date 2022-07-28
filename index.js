@@ -4,9 +4,9 @@ const bodyParser = require('body-parser')
 const { Pool } = require('pg')
 var pool = new Pool({
   connectionString: process.env.DATABASE_URL || "postgres://postgres:root@localhost/cmpt354_project",
-  ssl:{
-    rejectUnauthorized: false
-  }
+  // ssl:{
+  //   rejectUnauthorized: false
+  // }
 })
 //left is the environment variable for production, and 5000 is for local
 const PORT = process.env.PORT || 5000
@@ -181,22 +181,19 @@ app.post('/addplayerdata', async(req, res) => {
     temp_dob = 'NULL'
   }
 
-  // put person in the database
-  var addplayerquery = `INSERT INTO player (name, dob, gender, phone, email) VALUES ('${temp_name}', ${temp_dob}, '${temp_gender}', '${temp_phone}', '${temp_email}')`;
-  // var addplayerquery = `INSERT INTO player (name, dob, gender, phone, email) VALUES ('${temp_name}', '${temp_dob}', '${temp_gender}', '${temp_phone}', '${temp_email}')`;
   if(!temp_dob){
-    var addplayerquery = `INSERT INTO player (name, dob, gender, phone, email) VALUES ('${temp_name}', ${temp_dob}, '${temp_gender}', '${temp_phone}', '${temp_email}')`;
+    var addplayerquery = `INSERT INTO player (name, email, gender, phone, dob) VALUES ('${temp_name}', '${temp_email}', '${temp_gender}', '${temp_phone}', ${temp_dob})`;
+  }else{
+    var addplayerquery = `INSERT INTO player (name, email, gender, phone, dob) VALUES ('${temp_name}','${temp_email}' , '${temp_gender}', '${temp_phone}', '${temp_dob}')`;
   }
-  var allplayerquery = 'SELECT * FROM player';
   try{
+    var ret_obj = {name: temp_name, email: temp_email, gender: temp_gender, phone: temp_phone, dob: temp_dob} 
+    console.log(ret_obj)
     // wait until the query is done processing
     const addresult = await pool.query(addplayerquery)
-    var ret_obj = {name: temp_name, email: temp_email, gender: temp_gender, phone: temp_phone, dob: temp_dob} // creating an object with key and value pairs
-    console.log(ret_obj)
 
-    const result = await pool.query(allplayerquery)
-    const data = {results: result.rows} 
-    res.render('pages/index.ejs', data)
+
+    res.render('pages/index.ejs')
   }catch (error){
       res.end(error)
   }
