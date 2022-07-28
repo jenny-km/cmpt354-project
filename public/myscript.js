@@ -1,7 +1,7 @@
 function checkInput(id)
 {
     var input = document.getElementById(id).value;
-    if (input.tolowercase != 'male' && input.tolowercase != 'female' && input.towerlowercase != "non-binary"){
+    if (input.toLowerCase() != 'male' && input.toLowerCase() != 'female' && input.toLowerCase() != "non-binary"){
         window.alert("Error: Gender field only accepts Male, Female, or Non-binary.");
     }
 }
