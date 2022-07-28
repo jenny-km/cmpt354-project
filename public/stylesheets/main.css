@@ -401,13 +401,7 @@ border: 3px solid #555;
 
 .search-left{
   float: left;
-  margin-left: 20%;
-  padding-right: 30px;
-}
-
-.search-right{
-   width: 240px;
-   padding-top: 5px;
+  margin-left: 19%;
 }
 
 .search-button-container{
@@ -457,7 +451,6 @@ border: 3px solid #555;
   margin-top: 10px;
   margin-bottom: 15px;
 }
-
 
 .player-table {
   border-collapse: collapse;

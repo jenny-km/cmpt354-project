@@ -244,11 +244,13 @@ app.post('/updateplayerdata', async(req, res) => {
 app.post('/redirectupdate', async(req, res) => {
   // get the id from form
   var temp_id = req.body.s_redirect_update_values
+  console.log('temp_id:' ,temp_id)
   // select user
   var selectplayerquery = `SELECT * FROM player WHERE playerid=${temp_id}`;
 
   try{
     const result = await pool.query(selectplayerquery)
+    console.log('update results:', result.rows)
     const data = {results: result.rows} 
       // redirect to update page
     res.render('pages/updatePlayer', data)

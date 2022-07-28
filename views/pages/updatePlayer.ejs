@@ -20,10 +20,12 @@
   <div class="update-player-container">
     <form action = "/updateplayerdata" method = "post">
       <fieldset>
-        <% results.forEach((r) => { %>
+        
           <legend class = "update-player-legend">Update Player Details</legend>
-          <input type="hidden" id="player_id" name="s_player_id" value="<%=r.playerid%>"/>
+          
           <div class = "form-contents">
+            <% results.forEach((r) => { %>
+            <input type="hidden" id="player_id" name="s_player_id" value="<%=r.playerid%>"/>
             <input type = "text" class = "update-player-form"
                     placeholder = "Name" id = "name" name = "s_name" value = "<%=r.name%>" >
             <br>
@@ -46,12 +48,13 @@
                       id = "birthday" name = "s_birthday" max="2022-07-26" value = "<%=r.dob%>" >
               <% } %>
             </div>
+            <% }) %>
             <input type = "submit" id = "update-button" class = "update-player-button"
                     value = "Update" name = "update_submit">
             <br>
             <br>
           </div>
-          <% }) %>
+
       </fieldset>
   </form>
   </div>
