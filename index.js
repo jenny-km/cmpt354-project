@@ -4,9 +4,9 @@ const bodyParser = require('body-parser')
 const { Pool } = require('pg')
 var pool = new Pool({
   connectionString: process.env.DATABASE_URL || "postgres://postgres:root@localhost/cmpt354_project",
-  // ssl:{
-  //   rejectUnauthorized: false
-  // }
+  ssl:{
+    rejectUnauthorized: false
+  }
 })
 //left is the environment variable for production, and 5000 is for local
 const PORT = process.env.PORT || 5000
