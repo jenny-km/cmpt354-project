@@ -4,9 +4,9 @@ const bodyParser = require('body-parser')
 const { Pool } = require('pg')
 var pool = new Pool({
   connectionString: process.env.DATABASE_URL || "postgres://postgres:root@localhost/cmpt354_project",
-  ssl:{
-    rejectUnauthorized: false
-  }
+  // ssl:{
+  //   rejectUnauthorized: false
+  // }
 })
 //left is the environment variable for production, and 5000 is for local
 const PORT = process.env.PORT || 5000
@@ -224,8 +224,17 @@ app.post('/updateplayerdata', async(req, res) => {
   var temp_phone = req.body.s_phone
   var temp_dob = req.body.s_birthday
 
-  // put person in the database
+  if(!temp_dob){
+    temp_dob = null
+  }
+
   var changeplayerquery = `UPDATE player SET name = '${temp_name}', dob = '${temp_dob}', gender = '${temp_gender}', phone = '${temp_phone}', email = '${temp_email}' WHERE playerid = ${temp_id}`;
+  if(!temp_dob){
+    changeplayerquery = `UPDATE player SET name = '${temp_name}', dob = ${temp_dob}, gender = '${temp_gender}', phone = '${temp_phone}', email = '${temp_email}' WHERE playerid = ${temp_id}`;
+  }
+
+  // put person in the database
+  
   var allplayerquery = 'SELECT * FROM player ORDER BY playerid';
   try{
     // wait until the query is done processing
