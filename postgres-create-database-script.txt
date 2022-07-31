@@ -1,0 +1,316 @@
+CREATE TABLE Player (playerid SERIAL, 
+                    name VARCHAR(255), 
+                    email VARCHAR(255),
+                    gender VARCHAR(255), 
+                    phone VARCHAR(15),
+                    dob DATE, 
+                    PRIMARY KEY(playerid), 
+                    UNIQUE (name, dob, phone), 
+                    UNIQUE (name, dob, email));
+
+INSERT INTO Player (name, dob, gender, phone, email) VALUES ('Cixin Liu', '2006-04-12', 'male', '604-943-2451', 'cixin2005@gmail.com');
+INSERT INTO Player (name, dob, gender, phone, email) VALUES ('Fredrick Harris', '1997-10-30', 'male', null, 'FredHar1000@gmail.com');
+INSERT INTO Player (name, dob, gender, phone, email) VALUES ('Regina Barrett', '2005-07-03', 'female', '604-234-1652', null);
+INSERT INTO Player (name, dob, gender, phone, email) VALUES ('Naveed Howell', '1988-12-09', 'male', '672-152-4053', 'Naveed.H.88@hotmail.com');
+INSERT INTO Player (name, dob, gender, phone, email) VALUES ('Zunairah Tapia', '1995-02-22', 'female', '604-684-5920', null); 
+INSERT INTO Player (name, dob, gender, phone, email) VALUES ('Alyssa Cobb', '2007-01-19', 'female', null, null);
+INSERT INTO Player (name, dob, gender, phone, email) VALUES ('Viktor Vargas', '2005-10-13', 'male', null, 'VikVar13@gmail.com');
+INSERT INTO Player (name, dob, gender, phone, email) VALUES ('Grady Churchill', '2008-04-26', 'female', '604-203-4031', 'Grady8888@gmail.com');
+INSERT INTO Player (name, dob, gender, phone, email) VALUES ('Greg Thomas', '2000-11-07', 'male', null, 'GT73@gmail.com');
+INSERT INTO Player (name, dob, gender, phone, email) VALUES ('Sebastian Thomas', '1998-06-14', 'male', '604-683-4950', 'xXSebTXx@gmail.com');
+
+
+CREATE TABLE Minor  (playerid INT PRIMARY KEY, 
+                    gname VARCHAR(255), 
+                    gemail VARCHAR(255), 
+                    gphone VARCHAR(15), 
+                    FOREIGN KEY(playerid) REFERENCES player(playerid) ON DELETE CASCADE);
+
+INSERT INTO Minor VALUES (1, 'Zhang Liu', 'J.Liu201@gmail.com', '604-258-1932');
+INSERT INTO Minor VALUES (3, 'Rebecca Barett', 'RebeccaBarett@hotmail.com', '604-134-1230');
+INSERT INTO Minor VALUES (6, 'Henry Cobb', 'HCobb@gmail.com', '670-120-4201');
+INSERT INTO Minor VALUES (7, 'Greg Vargas', 'GVargas@sfu.ca', '604-651-4693');
+INSERT INTO Minor VALUES (8, 'John Churchill', 'JChurchill@gmail.com', '647-430-2023');
+
+
+CREATE TABLE Captained_Team (teamid SERIAL, 
+                    teamname VARCHAR(255), 
+                    playerid INT NOT NULL, 
+                    PRIMARY KEY(teamid), 
+                    FOREIGN KEY (playerid) REFERENCES Player(playerid) );
+
+INSERT INTO Captained_Team (teamname, playerid) VALUES ('Burnaby Bandits', 2);
+INSERT INTO Captained_Team (teamname, playerid) VALUES ('Surrey Scoundrels', 3);
+INSERT INTO Captained_Team (teamname, playerid) VALUES ('Vancouver Vampires', 4);
+INSERT INTO Captained_Team (teamname, playerid) VALUES ('Richmond Rockstars', 5);
+INSERT INTO Captained_Team (teamname, playerid) VALUES ('Langley Legion', 7);
+
+
+CREATE TABLE SportsLeagues  (sport VARCHAR(255), 
+                            gender VARCHAR(255), 
+                            PRIMARY KEY(sport, gender) );
+
+INSERT INTO SportsLeagues VALUES ('Soccer', 'male');
+INSERT INTO SportsLeagues VALUES ('Soccer', 'female');
+INSERT INTO SportsLeagues VALUES ('Basketball', 'coed');
+INSERT INTO SportsLeagues VALUES ('Badminton', 'coed');
+INSERT INTO SportsLeagues VALUES ('Dodgeball', 'coed');
+
+
+CREATE TABLE Season (start_date DATE, 
+                    end_date DATE UNIQUE, 
+                    PRIMARY KEY (start_date) );
+
+INSERT INTO Season VALUES ('2021-01-01', '2021-03-31');
+INSERT INTO Season VALUES ('2021-04-01', '2021-06-30');
+INSERT INTO Season VALUES ('2021-07-01', '2021-9-30');
+INSERT INTO Season VALUES ('2021-10-01', '2021-12-31');
+INSERT INTO Season VALUES ('2022-01-01', '2022-03-31');
+
+
+CREATE TABLE Tournament (tournname VARCHAR(255), 
+                        trophy VARCHAR(255), 
+                        PRIMARY KEY(tournname) );
+
+CREATE TABLE TournamentEvent    (tournname VARCHAR(255), 
+                        startdate DATE,  
+                        enddate DATE, 
+                        PRIMARY KEY(tournname, startdate), 
+                        FOREIGN KEY (tournname)REFERENCES Tournament(tournname) ON UPDATE CASCADE);
+
+INSERT INTO Tournament VALUES ('Vancouver Rec Soccer Invitational' , 'Vancouver Cup');
+INSERT INTO Tournament VALUES ('Sports Connect Rec Tournament', 'Sports Connect Cup'); 
+INSERT INTO Tournament VALUES ('Henry Richardson Tournament', null);
+INSERT INTO Tournament VALUES ('Ageless Wonders Slowpitch Baseball Tournament', 'Stay Fit Do Not Quit Cup');
+INSERT INTO Tournament VALUES ('Summer Basketball Invitational', null);
+
+INSERT INTO TournamentEvent VALUES ('Vancouver Rec Soccer Invitational', '2020-09-01', '2020-12-20');
+INSERT INTO TournamentEvent VALUES ('Sports Connect Rec Tournament', '2020-01-15', '2020-04-20');
+INSERT INTO TournamentEvent VALUES ('Henry Richardson Tournament', '2021-06-10', '2021-07-10');
+INSERT INTO TournamentEvent VALUES ('Ageless Wonders Slowpitch Baseball Tournament', '2022-01-20', '2022-03-20');
+INSERT INTO TournamentEvent VALUES ('Summer Basketball Invitational', '2020-06-25', '2020-08-11');
+
+
+CREATE TABLE Contact    (contactperson VARCHAR (255),
+                        email VARCHAR (255), 
+                        PRIMARY KEY (contactperson) );
+
+CREATE TABLE Organization   (orgname VARCHAR (255), 
+                            contactperson VARCHAR (255), 
+                            PRIMARY KEY (orgname), 
+                            FOREIGN KEY (contactperson) REFERENCES Contact (contactperson) ON UPDATE CASCADE);
+
+CREATE TABLE OrgID  (orgid SERIAL, 
+                    orgname VARCHAR (255), 
+                    PRIMARY KEY (orgid), 
+                    FOREIGN KEY (orgname) REFERENCES Organization (orgname) ON UPDATE CASCADE);
+
+INSERT INTO Contact VALUES ('Milla Holmes', 'mh123@gmail.com');
+INSERT INTO Contact VALUES ('Mike Wilson', 'mikewilson98@gmail.com' );
+INSERT INTO Contact VALUES ('Jamie Lee', 'jamielee14@yahoo.ca');
+INSERT INTO Contact VALUES ('Arnold Weiss', 'aw5476@hotmail.com');
+INSERT INTO Contact VALUES ('Jessie James', 'jj9012@yahoo.ca');
+
+INSERT INTO Organization VALUES ('East Van Brewing Company', 'Milla Holmes');
+INSERT INTO Organization VALUES ('Parallel 49 Brewing Company', 'Mike Wilson');
+INSERT INTO Organization VALUES ('Telus', 'Jamie Lee'); 
+INSERT INTO Organization VALUES ('Canadian Blood Services', 'Arnold Weiss'); 
+INSERT INTO Organization VALUES ('Flair Airlines', 'Jessie James');
+
+INSERT INTO OrgID(orgname) VALUES ('East Van Brewing Company'); 
+INSERT INTO OrgID(orgname) VALUES ('Parallel 49 Brewing Company'); 
+INSERT INTO OrgID(orgname) VALUES ('Telus'); 
+INSERT INTO OrgID(orgname) VALUES ('Canadian Blood Services'); 
+INSERT INTO OrgID(orgname) VALUES ('Flair Airlines');
+
+CREATE TABLE Facility   (facname VARCHAR(255), 
+                        address VARCHAR(255), 
+                        phone CHAR(15), 
+                        PRIMARY KEY(facname), 
+                        UNIQUE (address, phone));
+
+CREATE TABLE SportsFacility     (facid SERIAL, 
+                                facname VARCHAR(255),  
+                                PRIMARY KEY(facid), 
+                                FOREIGN KEY (facname) REFERENCES Facility(facname) ON UPDATE CASCADE);
+
+INSERT INTO Facility VALUES ('Marpole-Oakridge Community Centre', '990 W 59th Ave', '604-257-8180');
+INSERT INTO Facility VALUES ('Mount Pleasant Community Centre', '1 Kingsway', '604-257-3080');
+INSERT INTO Facility VALUES ('Killarney Community Centre', '6260 Killarney St', '604-718-8200');
+INSERT INTO Facility VALUES ('Sri Sathya Sai Baba Centre', '2215 E PENDER ST', null);
+INSERT INTO Facility VALUES ('Thunderbird Community Centre', '2311 Cassiar St', '604-713-1818');
+
+INSERT INTO SportsFacility(facname) VALUES ('Marpole-Oakridge Community Centre');
+INSERT INTO SportsFacility(facname) VALUES ('Mount Pleasant Community Centre');
+INSERT INTO SportsFacility(facname) VALUES ('Killarney Community Centre');
+INSERT INTO SportsFacility(facname) VALUES ('Sri Sathya Sai Baba Centre');
+INSERT INTO SportsFacility(facname) VALUES ('Thunderbird Community Centre');
+
+CREATE TABLE Referee    (refid SERIAL, 
+                        name VARCHAR(255),  
+                        sport VARCHAR(255),  
+                        qualifiedsince DATE,  
+                        phone CHAR(15), 
+                        email VARCHAR(255), 
+                        PRIMARY KEY(refid),  
+                        UNIQUE (Name, QualifiedSince, Phone), 
+                        UNIQUE (Name, QualifiedSince, Email));
+
+INSERT INTO Referee(name, sport, qualifiedSince, phone, email) VALUES ('Miles Taylor', 'Baseball', '1998-01-02', '778-970-1234', 'milestay57@gmail.com'); 
+INSERT INTO Referee(name, sport, qualifiedSince, phone, email) VALUES ('Mica Gonzalez', 'Basketball', '2009-02-09', '604-612-6034', 'micag82@yahoo.ca');
+INSERT INTO Referee(name, sport, qualifiedSince, phone, email) VALUES ('Caley Strauss', 'Cricket', '2003-03-29', '778-082-1932', 'caleystrauss29@hotmail.com');
+INSERT INTO Referee(name, sport, qualifiedSince, phone, email) VALUES ('Joe Jones', 'Hockey', '2010-10-09', '604-762-3890', 'jojo38@gmail.com');
+INSERT INTO Referee(name, sport, qualifiedSince, phone, email) VALUES ('Max Getrude', 'Volleyball', '2021-03-19', '778-890-0234', 'maxgvolley@yahoo.ca');
+
+CREATE TABLE Coaches    (coachid SERIAL,  teamid INT NOT NULL, name VARCHAR(255), 
+                        gender VARCHAR(255), 
+                        phone CHAR(15), 
+                        email VARCHAR(255), 
+                        PRIMARY KEY(coachid), 
+                        FOREIGN KEY (teamid) REFERENCES Captained_Team(teamid) ON UPDATE CASCADE, 
+                        UNIQUE (name, phone), 
+                        UNIQUE (name, email));
+
+INSERT INTO Coaches(teamid, name, gender, phone, email) VALUES (1, 'Isla Diaz', 'female', '604-230-5270', 'IDiaz78@gmail.com');
+INSERT INTO Coaches(teamid, name, gender, phone, email) VALUES (2, 'Menachem Francis', 'male', null, 'MenchemFrancis@hotmail.com');
+INSERT INTO Coaches(teamid, name, gender, phone, email) VALUES (3, 'Hollie Rose', 'female', '670-364-6958', 'H_rose22@gmail.com');
+INSERT INTO Coaches(teamid, name, gender, phone, email) VALUES (4, 'Usama Truong', 'male', '604-583-5830', null);
+INSERT INTO Coaches(teamid, name, gender, phone, email) VALUES (5, 'Mohammad Muir', 'male', '604-528-6582', 'MMuir.90@gmail.com');
+
+CREATE TABLE IsOn   (playerid INT, 
+                    teamid INT, 
+                    position VARCHAR (255), 
+                    PRIMARY KEY(playerid, teamid), 
+                    FOREIGN KEY (playerid) REFERENCES Player(playerid) ON UPDATE CASCADE ON DELETE CASCADE, 
+                    FOREIGN KEY (teamid) REFERENCES Captained_Team(teamid) ON UPDATE CASCADE); 
+
+INSERT INTO IsOn VALUES (1, 1, 'Point guard');
+INSERT INTO IsOn VALUES (6, 1, 'Shooting guard'); 
+INSERT INTO IsOn VALUES (8, 1, 'Small forward');
+INSERT INTO IsOn VALUES (9, 2, 'Point guard');
+INSERT INTO IsOn VALUES (10, 2, 'Center');
+
+CREATE TABLE ComposedOfDivision (sport VARCHAR(255), 
+                                gender VARCHAR(255), 
+                                skilllevel VARCHAR(255), 
+                                geographiclocation VARCHAR(255), 
+                                agegroup VARCHAR(255), 
+                                PRIMARY KEY(sport, gender, skilllevel, geographiclocation, agegroup), 
+                                FOREIGN KEY(sport, gender) REFERENCES SportsLeagues(sport,gender) ON UPDATE NO ACTION ON DELETE CASCADE);
+
+INSERT INTO ComposedOfDivision VALUES ('Basketball', 'coed', 'rec', 'Metro Vancouver', 'All ages'); 
+INSERT INTO ComposedOfDivision VALUES ('Dodgeball', 'coed', 'rec plus', 'Metro Vancouver', '45 plus');
+INSERT INTO ComposedOfDivision VALUES ('Badminton', 'coed', 'legends', 'Fraser Valley', 'all ages');
+INSERT INTO ComposedOfDivision VALUES ('Soccer', 'male', 'rec', 'Metro Vancouver', 'adults');
+INSERT INTO ComposedOfDivision VALUES ('Soccer', 'male', 'rec plus', 'Metro Vancouver', 'adults');
+
+CREATE TABLE PlaysIn    (teamid INT, 
+                        start_date DATE, 
+                        sport VARCHAR(255), 
+                        gender VARCHAR(255), 
+                        skilllevel VARCHAR(255), 
+                        geographiclocation VARCHAR(255), 
+                        agegroup VARCHAR(255), 
+                        PRIMARY KEY(teamid, start_date, sport, gender, skilllevel, geographiclocation, agegroup),
+                        FOREIGN KEY (teamid) REFERENCES Captained_Team(teamid) ON UPDATE CASCADE,
+                        FOREIGN KEY (start_date) REFERENCES Season(start_date) ON UPDATE CASCADE,
+                        FOREIGN KEY (sport, gender) REFERENCES SportsLeagues(sport, gender) ON UPDATE CASCADE,
+                        FOREIGN KEY (sport, gender, skilllevel, geographiclocation, agegroup) 
+                            REFERENCES ComposedOfDivision(sport, gender, skilllevel, geographiclocation, agegroup) 
+                            ON UPDATE CASCADE );
+
+INSERT INTO PlaysIn VALUES (1, '2022-01-01', 'Basketball', 'coed', 'rec', 'Metro Vancouver', 'All ages');
+INSERT INTO PlaysIn VALUES (2, '2022-01-01', 'Basketball', 'coed', 'rec', 'Metro Vancouver', 'All ages');
+INSERT INTO PlaysIn VALUES (3, '2022-01-01', 'Basketball', 'coed', 'rec', 'Metro Vancouver', 'All ages'); 
+INSERT INTO PlaysIn VALUES (4, '2022-01-01', 'Basketball', 'coed', 'rec', 'Metro Vancouver', 'All ages');
+INSERT INTO PlaysIn VALUES (5, '2022-01-01', 'Basketball', 'coed', 'rec', 'Metro Vancouver', 'All ages');
+INSERT INTO PlaysIn VALUES (1, '2021-01-01', 'Basketball', 'coed', 'rec', 'Metro Vancouver', 'All ages');
+INSERT INTO PlaysIn VALUES (1, '2021-04-01', 'Basketball', 'coed', 'rec', 'Metro Vancouver', 'All ages');
+INSERT INTO PlaysIn VALUES (1, '2021-07-01', 'Basketball', 'coed', 'rec', 'Metro Vancouver', 'All ages');
+INSERT INTO PlaysIn VALUES (1, '2021-10-01', 'Basketball', 'coed', 'rec', 'Metro Vancouver', 'All ages');
+
+
+CREATE TABLE SponsoredBy    (startdate DATE, 
+                            tournname VARCHAR(255), 
+                            orgid INT, 
+                            contribution VARCHAR(255), 
+                            PRIMARY KEY(startdate, tournname, orgid), 
+                            FOREIGN KEY(tournname, startdate) REFERENCES TournamentEvent(tournname, startdate) ON UPDATE CASCADE, 
+                            FOREIGN KEY(orgid) REFERENCES OrgID(orgid) ON UPDATE CASCADE);
+
+INSERT INTO SponsoredBy VALUES ('2020-06-25', 'Summer Basketball Invitational', 1, '$500');
+INSERT INTO SponsoredBy VALUES ('2020-06-25', 'Summer Basketball Invitational', 2, 'Drinks');
+INSERT INTO SponsoredBy VALUES ('2022-01-20', 'Ageless Wonders Slowpitch Baseball Tournament', 3, 'Finals catering');
+INSERT INTO SponsoredBy VALUES ('2021-06-10', 'Henry Richardson Tournament', 4, '$250');
+INSERT INTO SponsoredBy VALUES ('2020-01-15', 'Sports Connect Rec Tournament', 5, '$1000 in prize vouchers');
+
+CREATE TABLE CompetesIn (teamid INT, 
+                        startdate DATE, 
+                        tournname VARCHAR(255), 
+                        result VARCHAR(255), 
+                        PRIMARY KEY(teamid, startdate, tournname), 
+                        FOREIGN KEY(teamid) REFERENCES Captained_Team(teamid) ON UPDATE CASCADE, 
+                        FOREIGN KEY(tournname, startdate) REFERENCES TournamentEvent(tournname, startdate) ON UPDATE CASCADE);
+
+INSERT INTO CompetesIn VALUES (1, '2020-06-25', 'Summer Basketball Invitational', 'Second');
+INSERT INTO CompetesIn VALUES (2, '2020-06-25', 'Summer Basketball Invitational', 'First');
+INSERT INTO CompetesIn VALUES (3, '2020-06-25', 'Summer Basketball Invitational', 'Fourth');
+INSERT INTO CompetesIn VALUES (4, '2020-06-25', 'Summer Basketball Invitational', 'Third');
+INSERT INTO CompetesIn VALUES (5, '2020-06-25', 'Summer Basketball Invitational', 'Fifth');
+
+
+
+CREATE TABLE PlaysMatch     (HomeTeamID INT, 
+                            AwayTeamID INT, 
+                            date_time TIMESTAMP, 
+                            HomeTeamScore INT, 
+                            AwayTeamScore INT, 
+                            facid INT, 
+                            field_rink_court VARCHAR(255), 
+                            refid INT, 
+                            startdate DATE, 
+                            tournname VARCHAR (255), 
+                            PRIMARY KEY(HomeTeamID, AwayTeamID, date_time), 
+                            UNIQUE (date_time, facid, field_rink_court), 
+                            FOREIGN KEY (HomeTeamID) REFERENCES Captained_Team(teamid) ON UPDATE CASCADE, 
+                            FOREIGN KEY (AwayTeamID) REFERENCES Captained_Team(teamid) ON UPDATE CASCADE, 
+                            FOREIGN KEY (facid) REFERENCES SportsFacility(facid) ON UPDATE CASCADE, 
+                            FOREIGN KEY (refid) REFERENCES Referee (refid) ON UPDATE CASCADE, 
+                            FOREIGN KEY (tournname, startdate) REFERENCES TournamentEvent(tournname, startdate) ON UPDATE CASCADE, 
+                            FOREIGN KEY (tournname) REFERENCES Tournament(tournname) ON UPDATE CASCADE);
+
+INSERT INTO PlaysMatch VALUES (1, 2, '2022-06-03 17:45', 64, 59, 1, '3', 3, null, null);
+INSERT INTO PlaysMatch VALUES (1, 3, '2022-06-04 19:00', 55, 43, 3, 'main gym', 5, null, null); 
+INSERT INTO PlaysMatch VALUES (2, 5, '2022-06-04 18:00', 72, 49, 1, '4', 4, null, null);
+INSERT INTO PlaysMatch VALUES (5, 4, '2022-06-05 17:30', 37, 46, 4, 'west gym', 3, '2020-06-25', 'Summer Basketball Invitational');
+INSERT INTO PlaysMatch VALUES (4, 3, '2022-06-05 19:00', 50, 49, 3, 'east gym', 1, '2020-06-25', 'Summer Basketball Invitational');
+
+CREATE VIEW MatchScores as
+SELECT HomeTeamID as TeamID, HomeTeamScore as Score
+FROM PlaysMatch
+UNION ALL
+SELECT AwayTeamID as TeamID, AwayTeamScore as Score
+FROM PlaysMatch;
+
+CREATE VIEW AverageScores as
+SELECT TeamID, avg(Score) as AVGScore
+FROM MatchScores
+GROUP BY TeamID;
+
+CREATE VIEW CrossProduct as
+SELECT Season.start_date, PlaysIn.teamid
+FROM Season, PlaysIn;
+
+CREATE VIEW FirstSub as
+SELECT *  
+FROM CrossProduct
+EXCEPT
+SELECT start_date, teamid
+FROM PlaysIn;
+
+CREATE VIEW DividedTeamid as
+SELECT teamid
+FROM PlaysIn
+EXCEPT
+SELECT teamid
+FROM FirstSub;

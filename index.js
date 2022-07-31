@@ -51,7 +51,7 @@ app.get('/searchPlayers', async(req, res) => {
     // results is the attribute
     // result.rows -> are the rows of the database
     const data = {results: result.rows} 
-    console.log(data)
+    //console.log(data)
     // send the results data to this page
     res.render('pages/searchPlayers', data)
   }catch (error){
@@ -78,14 +78,14 @@ app.get('/filterPlayers', async(req, res) => {
       colArr.push(colObj)
     }
 
-    console.log("colArr:", colArr)
+    //console.log("colArr:", colArr)
 
 
     let columnNames = ['playerid', 'name', 'email', 'gender', 'phone', 'dob']
     let showColumns = columnNames
     let checkedColumns = Object.keys(req.query)
 
-    console.log("Object keys req. query: ",Object.keys(req.query))
+    // console.log("Object keys req. query: ",Object.keys(req.query))
     for(let i = 0; i < checkedColumns.length; i++){
       let colindex = showColumns.indexOf(checkedColumns[i])
       if(colindex != -1){
@@ -93,14 +93,12 @@ app.get('/filterPlayers', async(req, res) => {
       }
     }
 
-    console.log( "showCOlumns : ", showColumns);
-    console.log( "checked columns : ", checkedColumns);
+    // console.log( "showCOlumns : ", showColumns);
+    // console.log( "checked columns : ", checkedColumns);
 
     let colnameString = ''
     if(checkedColumns.length < 6){
-      console.log("enter")
       for(let i = 0; i < showColumns.length; i++){
-        console.log("inner: " + showColumns[i])
         if(i === showColumns.length-1){
           colnameString += showColumns[i] 
         }else{
@@ -109,7 +107,7 @@ app.get('/filterPlayers', async(req, res) => {
       }
     }
    
-    console.log( "colname string : ", colnameString);
+    // console.log( "colname string : ", colnameString);
 
     const selectedquery = `SELECT ${colnameString} FROM player ORDER BY playerid`
     const selectedResult = await pool.query(selectedquery)
@@ -117,23 +115,6 @@ app.get('/filterPlayers', async(req, res) => {
     }catch (error){
         res.end(error)
     }
-
-
-
-  // var allplayerquery = 'SELECT * FROM player ORDER BY playerid';
-  // try{
-  //   // wait until the query is done processing
-  //   const result = await pool.query(allplayerquery)
-  //   // get the results data
-  //   // results is the attribute
-  //   // result.rows -> are the rows of the database
-  //   const data = {results: result.rows} 
-  //   console.log(data)
-  //   // send the results data to this page
-  //   res.render('pages/searchPlayers', data)
-  // }catch (error){
-  //     res.end(error)
-  // }
 })
 
 app.get('/guardianInfo', async(req, res) => {
@@ -149,7 +130,6 @@ app.get('/guardianInfo', async(req, res) => {
     // results is the attribute
     // result.rows -> are the rows of the database
     const data = {results: result.rows} 
-    console.log(data)
     // send the results data to this page
     res.render('pages/guardianInfo', data)
   }catch (error){
@@ -187,8 +167,8 @@ app.post('/addplayerdata', async(req, res) => {
   }
   try{
     var ret_obj = {name: temp_name, email: temp_email, gender: temp_gender, phone: temp_phone, dob: temp_dob} 
-    console.log(ret_obj)
-    console.log(addplayerquery)
+    // console.log(ret_obj)
+    // console.log(addplayerquery)
     // wait until the query is done processing
     const addresult = await pool.query(addplayerquery)
 
@@ -240,7 +220,7 @@ app.post('/updateplayerdata', async(req, res) => {
     // wait until the query is done processing
     const changeresult = await pool.query(changeplayerquery)
     var ret_obj = {name: temp_name, email: temp_email, gender: temp_gender, phone: temp_phone, dob: temp_dob} // creating an object with key and value pairs
-    console.log(ret_obj)
+    //console.log(ret_obj)
 
     const result = await pool.query(allplayerquery)
     const data = {results: result.rows} 
@@ -253,13 +233,13 @@ app.post('/updateplayerdata', async(req, res) => {
 app.post('/redirectupdate', async(req, res) => {
   // get the id from form
   var temp_id = req.body.s_redirect_update_values
-  console.log('temp_id:' ,temp_id)
+  //console.log('temp_id:' ,temp_id)
   // select user
   var selectplayerquery = `SELECT * FROM player WHERE playerid=${temp_id}`;
 
   try{
     const result = await pool.query(selectplayerquery)
-    console.log('update results:', result.rows)
+    //console.log('update results:', result.rows)
     const data = {results: result.rows} 
       // redirect to update page
     res.render('pages/updatePlayer', data)
@@ -271,23 +251,14 @@ app.post('/redirectupdate', async(req, res) => {
 app.post('/searchplayertable', async(req, res) => {
   // get the id from form
   var temp_name = req.body.s_name
-  var temp_gender_male = req.body.s_gender_male
-  var temp_gender_female = req.body.s_gender_female
+  var temp_gender = req.body.s_gender
+  
   var selectplayerquery = "";
-  console.log(temp_name)
-  // player name cannot be null
-  if(temp_gender_female == null && temp_gender_male != null){
-    selectplayerquery = `SELECT * FROM player WHERE name ILIKE '%${temp_name}%' AND gender ILIKE '${temp_gender_male.toLowerCase()}' ORDER BY playerid`;
-    console.log(selectplayerquery)
-  }else if(temp_gender_female != null && temp_gender_male == null){
-    selectplayerquery = `SELECT * FROM player WHERE name ILIKE '%${temp_name}%' AND gender ILIKE '${temp_gender_female.toLowerCase()}' ORDER BY playerid`;
-  }else{
+  if(temp_gender == "All" || !temp_gender){
     selectplayerquery = `SELECT * FROM player WHERE name ILIKE '%${temp_name}%' ORDER BY playerid`;
+  }else{
+    selectplayerquery = `SELECT * FROM player WHERE name ILIKE '%${temp_name}%' AND gender ILIKE '${temp_gender.toLowerCase()}' ORDER BY playerid`;
   }
-
-  console.log(temp_name)
-  console.log(temp_gender_male) 
-  console.log(temp_gender_female) // undefined if not checked
 
   try{
     const result = await pool.query(selectplayerquery)
@@ -301,25 +272,14 @@ app.post('/searchplayertable', async(req, res) => {
 
 app.post('/searchguardiantable', async(req, res) => {
   // get the id from form
-
   var temp_name = req.body.s_name
-  var temp_gender_male = req.body.s_gender_male
-  var temp_gender_female = req.body.s_gender_female
-  var selectguardianquery = "";
-  // player name cannot be null
-
-  if(temp_gender_female == null && temp_gender_male != null){
-    selectguardianquery = `SELECT P.playerID, P.name, P.gender, M.gname, M.gemail, M.gphone FROM Player P INNER JOIN Minor M ON P.playerid = M.playerid WHERE P.name ILIKE '%${temp_name}%' AND P.gender ILIKE '${temp_gender_male.toLowerCase()}' ORDER BY P.playerID`;
-    console.log(selectguardianquery)
-  }else if(temp_gender_female != null && temp_gender_male == null){
-    selectguardianquery = `SELECT P.playerID, P.name, P.gender, M.gname, M.gemail, M.gphone FROM Player P INNER JOIN Minor M ON P.playerid = M.playerid WHERE P.name ILIKE '%${temp_name}%' AND P.gender ILIKE '${temp_gender_female.toLowerCase()}' ORDER BY P.playerID`;
-  }else{
+  var temp_gender = req.body.s_gender
+  selectguardianquery = "";
+  if(temp_gender == "All" || !temp_gender){
     selectguardianquery = `SELECT P.playerID, P.name, P.gender, M.gname, M.gemail, M.gphone FROM Player P INNER JOIN Minor M ON P.playerid = M.playerid WHERE P.name ILIKE '%${temp_name}%' ORDER BY P.playerID`;
+  }else{
+    selectguardianquery = `SELECT P.playerID, P.name, P.gender, M.gname, M.gemail, M.gphone FROM Player P INNER JOIN Minor M ON P.playerid = M.playerid WHERE P.name ILIKE '%${temp_name}%' AND P.gender ILIKE '${temp_gender.toLowerCase()}' ORDER BY P.playerID`;
   }
-
-  console.log(temp_name)
-  console.log(temp_gender_male) 
-  console.log(temp_gender_female) // undefined if not checked
 
   try{
     const result = await pool.query(selectguardianquery)
@@ -349,7 +309,7 @@ app.post('/onfilterclick', async(req, res) => {
     }
     ++index
 
-    console.log("query string: ", queryString)
+    //console.log("query string: ", queryString)
   }
 
   res.redirect(`/filterPlayers/${queryString}`);
@@ -361,7 +321,7 @@ app.post('/getTotalPlayers', async(req, res) => {
 
   try{
     const result = await pool.query(getTotalPlayersQuery)
-    console.log("total Players: " , result.rows)
+    //console.log("total Players: " , result.rows)
       // redirect to update page
     res.render('pages/statistics', {totalPlayers: result.rows, teamAvgs: null, foundingTeams:null})
   }catch (error){
@@ -373,7 +333,7 @@ app.post('/getTeamAvgScores', async(req, res) => {
   var getTeamAvgsQuery = 'SELECT TeamName, AVGScore FROM AverageScores, Captained_Team WHERE AverageScores.TeamID = Captained_Team.TeamID ORDER BY AVGScore';
   try{
     const result = await pool.query(getTeamAvgsQuery)
-    console.log("Team AVGS: " , result.rows)
+    //console.log("Team AVGS: " , result.rows)
     res.render('pages/statistics', {teamAvgs: result.rows, totalPlayers: null, foundingTeams: null})
   }catch (error){
       res.end(error)
@@ -384,7 +344,7 @@ app.post('/getFoundingTeams', async(req, res) => {
   var getFoundingTeamsQuery = 'SELECT teamname FROM DividedTeamid, Captained_Team WHERE DividedTeamid.teamid = Captained_Team.teamid';
   try{
     const result = await pool.query(getFoundingTeamsQuery)
-    console.log("founding Teams: " , result.rows)
+    //console.log("founding Teams: " , result.rows)
     res.render('pages/statistics', {teamAvgs: null, totalPlayers: null, foundingTeams: result.rows})
   }catch (error){
       res.end(error)

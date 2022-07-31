@@ -24,17 +24,23 @@
       <div class = "search-player-name-input">
         <input type = "text" class = "search-player-input"
                   placeholder = "Minor Name" id = "name" name = "s_name"><br>
-          <div class = "search-checkboxes-inner"> 
+            <div class = "search-checkboxes-inner"> 
+              <div class = "search-left">
+                <input type="radio" id="gender-male" name="s_gender" value="Male" class ="checkbox-male"/>
+                <label class = "label-gender" for= "gender-male">Male</label>
+    
+                <input type="radio" id="gender-female" name="s_gender" value="Female" class ="checkbox-female"/>
+                <label class = "label-gender " for= "gender-female">Female</label>
+              </div>
+            </div> 
             <div class = "search-left">
-              <input type="checkbox" id="gender-male" name="s_gender_male" value="Male" class ="checkbox-male">
-              <label for= "gender-male">Male</label><br>
+              <input type="radio" id="gender-nonbinary" name="s_gender" value="Non-binary" class ="checkbox-nonbinary">
+              <label class = "label-gender" for= "gender-nonbinary">Non-binary</label>
+              <input type="radio" id="gender-all" name="s_gender" value="All" class ="checkbox-all"/>
+              <label class = "label-gender" for= "gender-all">All</label>
             </div>
-            <div class = "search-right">
-              <input type="checkbox" id="gender-female" name="s_gender_female" value="Female" class ="checkbox-female">
-              <label for= "gender-female">Female</label><br>
-            </div>
-          </div> 
-          <br/>
+            <br/>
+            <br/>
           <div class = "search-button-container">
             <input type = "submit" class = "search-player-button"
                   value = "Search" name = "search_submit">

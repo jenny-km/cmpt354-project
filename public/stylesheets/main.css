@@ -139,8 +139,7 @@
 
 .add-player-button
 {
-    margin-top: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     width: 30%;
     background-color: #cb2c39;
     color: white;
@@ -315,8 +314,7 @@ input[type=text], input[type=number] {
 
 .update-player-button 
 {
-    margin-top: 15px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     width: 30%;
     background-color: #cb2c39;
     color: white;
@@ -401,7 +399,7 @@ border: 3px solid #555;
 
 .search-left{
   float: left;
-  margin-left: 19%;
+  margin-left: 15%;
 }
 
 .search-button-container{
@@ -450,6 +448,21 @@ border: 3px solid #555;
 .checkbox-male{
   margin-top: 10px;
   margin-bottom: 15px;
+  margin-right: 3px;
+}
+
+.checkbox-female{
+  margin-left: 70px;
+  margin-right: 5px;
+}
+
+.checkbox-nonbinary{
+  margin-right: 3px;
+}
+
+.checkbox-all{
+  margin-left: 25px;
+  margin-right: 5px;
 }
 
 .player-table {
@@ -678,3 +691,10 @@ border: 3px solid #555;
 *::-webkit-scrollbar {
   display: none; 
 }
+
+.label-gender{
+  display:inline;
+  cursor: pointer;
+}
+
+
