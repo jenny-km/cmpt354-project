@@ -16,9 +16,10 @@ Your branch is up to date with 'origin/main'.
 
 nothing to commit, working tree clean
 PS C:\Users\Jennifer Kim\OneDrive\Documents\GitHub\cmpt354-project> git log
-commit f26991f61c56245291b2044a0c41b3c2f74fdf3c (HEAD -> main, origin/main, origin/HEAD)
+commit 1f705e65ac82f2d0edc2c78380a5d54c65ebfbbd (HEAD -> main, origin/main, origin/HEAD)
 Author: Jennifer Kim <jennykim029@gmail.com>
-Date:   Sat Jul 30 18:29:45 2022 -0700
+Date:   Sat Jul 30 18:52:23 2022 -0700
+    updated ReadMe File
 ```
 
 ## How to Set-up and Run the Application Locally
