@@ -7,6 +7,20 @@
 - In this hosted website in heroku, the PostgreSQL database has already been created and set-up in advance to prevent any complications that may occur.
 - The code itself can be accessed through [CMPT 354 - Group 29 Project Github Link](https://github.com/jenny-km/cmpt354-project). Please refer to the "How to set-up and run the application locally" section in case you are interested to test the application in your local computer.
 
+## Record of Last Commit
+
+```
+PS C:\Users\Jennifer Kim\OneDrive\Documents\GitHub\cmpt354-project> git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+PS C:\Users\Jennifer Kim\OneDrive\Documents\GitHub\cmpt354-project> git log
+commit f26991f61c56245291b2044a0c41b3c2f74fdf3c (HEAD -> main, origin/main, origin/HEAD)
+Author: Jennifer Kim <jennykim029@gmail.com>
+Date:   Sat Jul 30 18:29:45 2022 -0700
+```
+
 ## How to Set-up and Run the Application Locally
 
 Please follow the instructions listed below:
